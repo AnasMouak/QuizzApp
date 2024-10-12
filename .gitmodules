@@ -1,0 +1,3 @@
+[submodule "src/main/frontend/angular-quizz-app"]
+    path = src/main/frontend/angular-quizz-app
+    url = https://github.com/AnasMouak/angular-quizz-app.git
