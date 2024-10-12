@@ -23,11 +23,11 @@ public class QuizService {
         return quizRepository.findAll();
     }
 
-    public Optional<Quiz> getQuizById(Long id) {
-        return quizRepository.findById(id);
+    public Quiz save(Quiz quiz) {
+        return quizRepository.save(quiz);
     }
 
-    public Quiz saveQuiz(Quiz quiz) {
-        return quizRepository.save(quiz);
+    public Optional<Quiz> findById(Long id) {
+        return quizRepository.findById(id);
     }
 }

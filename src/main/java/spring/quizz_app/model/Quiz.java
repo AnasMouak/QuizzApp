@@ -2,6 +2,9 @@ package spring.quizz_app.model;
 
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import jakarta.persistence.*;
 
@@ -25,7 +28,8 @@ public class Quiz {
     @Column(name = "difficulty")
     private String difficulty;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Question> questions = new ArrayList<>();
 
     public Quiz() { }
@@ -85,9 +89,9 @@ public class Quiz {
         this.questions = questions;
     }
 
-    public void addQuestion(Question question) {
-        questions.add(question);
-        question.setQuiz(this);
+    public void addQuestion(Question questionText) {
+        questions.add(questionText);
+        questionText.setQuiz(this);
     }
 
     public void removeQuestion(Question question) {

@@ -22,13 +22,13 @@ public class QuestionService {
         this.quizRepository = quizRepository;
     }
 
-    public List<Question> getAllQuestions() {
+    public List<Question> findAll() {
         return questionRepository.findAll();
     }
 
-    public Question addQuestionToQuiz(Long quizId, Question question) {
-        Quiz quiz = quizRepository.findById(quizId).orElse(null);
-        question.setQuiz(quiz);
+    public Question addQuestionToQuiz(Long quizzId, Question question) {
+        Quiz quizz = quizRepository.findById(quizzId).orElse(null);
+        question.setQuiz(quizz);
         return questionRepository.save(question);
     }
 }

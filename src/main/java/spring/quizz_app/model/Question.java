@@ -1,6 +1,9 @@
 package spring.quizz_app.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.*;
@@ -14,27 +17,29 @@ public class Question {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "question")
+    @Column(name = "questionText", nullable = false)
     private String questionText;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Answer> answers = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "FK_quiz"))
+    @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_quiz"))
+    @JsonBackReference
     private Quiz quiz;
 
     public Question() { }
 
-    public Question(String question, Quiz quiz) {
-        this.questionText = question;
+    public Question(String questionText, Quiz quiz) {
+        this.questionText = questionText;
+        this.quiz = quiz;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getQuestion() {
+    public String getQuestionText() {
         return questionText;
     }
 
@@ -50,8 +55,8 @@ public class Question {
         this.id = id;
     }
 
-    public void setQuestion(String question) {
-        this.questionText = question;
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 
     public void setQuiz(Quiz quiz) {
