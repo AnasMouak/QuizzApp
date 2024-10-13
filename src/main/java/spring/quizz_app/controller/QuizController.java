@@ -49,4 +49,9 @@ public class QuizController {
         return questionService.addQuestionToQuiz(quizId, question);
     }
 
+    @GetMapping("/quizzes/{quizzId}/questions")
+    public List<Question> getQuestionsByQuizId(@PathVariable Long quizzId) {
+        return questionService.getQuestionsByQuizId(quizzId);
+    }
+
 }

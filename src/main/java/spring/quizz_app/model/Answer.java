@@ -1,5 +1,7 @@
 package spring.quizz_app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,14 +13,15 @@ public class Answer {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "answer")
+    @Column(name = "answerText", nullable = false)
     private String answerText;
 
-    @Column(name = "is_correct")
+    @Column(name = "isCorrect", nullable = false)
     private boolean isCorrect;
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false, foreignKey = @ForeignKey(name = "FK_question"))
+    @JoinColumn(name = "question_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question"))
+    @JsonBackReference
     private Question question;
 
     public Answer() { }
@@ -32,7 +35,7 @@ public class Answer {
         return id;
     }
 
-    public String getAnswer() {
+    public String getAnswerText() {
         return answerText;
     }
 
@@ -48,8 +51,8 @@ public class Answer {
         this.id = id;
     }
 
-    public void setAnswer(String answer) {
-        this.answerText = answer;
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
     }
 
     public void setCorrect(boolean correct) {

@@ -10,6 +10,7 @@ import spring.quizz_app.repository.QuizRepository;
 
 import java.util.List;
 
+
 @Service
 public class QuestionService {
 
@@ -30,5 +31,9 @@ public class QuestionService {
         Quiz quizz = quizRepository.findById(quizzId).orElse(null);
         question.setQuiz(quizz);
         return questionRepository.save(question);
+    }
+
+    public List<Question> getQuestionsByQuizId(Long quizzId) {
+        return quizRepository.findById(quizzId).orElse(null).getQuestions();
     }
 }

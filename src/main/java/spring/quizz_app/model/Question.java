@@ -3,6 +3,7 @@ package spring.quizz_app.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,8 @@ public class Question {
     @Column(name = "questionText", nullable = false)
     private String questionText;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Answer> answers = new ArrayList<>();
 
     @ManyToOne
