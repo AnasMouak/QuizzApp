@@ -39,7 +39,7 @@ public class Answer {
         return answerText;
     }
 
-    public boolean isCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 
@@ -55,8 +55,8 @@ public class Answer {
         this.answerText = answerText;
     }
 
-    public void setCorrect(boolean correct) {
-        isCorrect = correct;
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
     }
 
     public void setQuestion(Question question) {

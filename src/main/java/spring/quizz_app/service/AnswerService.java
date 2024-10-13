@@ -31,4 +31,8 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
+    public List<Answer> getAnswersByQuestionId(Long questionId) {
+        return questionRepository.findById(questionId).orElse(null).getAnswers();
+    }
+
 }

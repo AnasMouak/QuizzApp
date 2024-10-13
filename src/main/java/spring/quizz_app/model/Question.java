@@ -21,7 +21,7 @@ public class Question {
     @Column(name = "questionText", nullable = false)
     private String questionText;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Answer> answers = new ArrayList<>();
 
