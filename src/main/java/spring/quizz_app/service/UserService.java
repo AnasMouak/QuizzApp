@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import spring.quizz_app.repository.UserRepository;
@@ -14,10 +15,12 @@ import spring.quizz_app.model.User;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllUsers() {
@@ -29,12 +32,13 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     public boolean loginUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
-        return userFromDB != null && userFromDB.getPassword().equals(user.getPassword());
+        return userFromDB != null && passwordEncoder.matches(user.getPassword(), userFromDB.getPassword());
     }
 
     public User getUserByUsername(String username) {
