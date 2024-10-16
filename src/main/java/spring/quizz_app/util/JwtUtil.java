@@ -64,7 +64,7 @@ public class JwtUtil {
                 .setSubject(subject)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(secretKey) // Use proper key and algorithm
+                .signWith(secretKey) 
                 .compact();
     }
 
