@@ -13,8 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 import spring.quizz_app.filter.JwtRequestFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -32,17 +38,32 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS support
+            .csrf(csrf -> csrf.disable()) // Disable CSRF protection
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/login", "/register").permitAll() // Allow unauthenticated access
-                .anyRequest().authenticated() // Secure other routes
+                .requestMatchers("/quizzes").authenticated() // Protect /quizzes
+                .anyRequest().authenticated() // Secure all other routes
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Ensure stateless sessions
             )
-            .csrf(csrf -> csrf.disable()) // Disable CSRF protection
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Allow Angular frontend
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow specific methods
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Allow headers
+        configuration.setAllowCredentials(true); // Allow credentials (like cookies or Authorization header)
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Apply CORS settings globally
+        return source;
     }
 
     @Bean

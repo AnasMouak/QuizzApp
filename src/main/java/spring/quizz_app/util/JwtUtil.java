@@ -2,8 +2,7 @@ package spring.quizz_app.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -11,18 +10,20 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Base64;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 @Service
 public class JwtUtil {
 
 
 
-    // Key generated using a secure method (HS256)
-    private SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+    // Use a fixed secret key, which could be loaded from environment variables or configuration
+    private static final String SECRET_KEY_STRING = "5lM3pQdxPWfGS0ruJ5fuYitd2P7E2gDRWd9Kdm4Qo+Y="; // Store this in env or config
+    private static final SecretKey secretKey = new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY_STRING), "HmacSHA256");
     private long validityInMilliseconds = 3600000; // 1 hour
 
     // Extract username from the token
