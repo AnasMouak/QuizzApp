@@ -21,8 +21,7 @@ public class JwtUtil {
 
 
 
-    // Use a fixed secret key, which could be loaded from environment variables or configuration
-    private static final String SECRET_KEY_STRING = "5lM3pQdxPWfGS0ruJ5fuYitd2P7E2gDRWd9Kdm4Qo+Y="; // Store this in env or config
+    private static final String SECRET_KEY_STRING = "5lM3pQdxPWfGS0ruJ5fuYitd2P7E2gDRWd9Kdm4Qo+Y=";
     private static final SecretKey secretKey = new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY_STRING), "HmacSHA256");
     private long validityInMilliseconds = 3600000; // 1 hour
 

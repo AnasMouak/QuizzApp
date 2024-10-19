@@ -76,7 +76,7 @@ public class QuizController {
             @RequestBody List<Integer> selectedAnswers,
             Principal principal) {
     
-        // Fetch the authenticated user from the principal (no need for userId parameter)
+        // Fetch the authenticated user from the principal
         String username = principal.getName();
         User user = userRepository.findByUsername(username);
     
