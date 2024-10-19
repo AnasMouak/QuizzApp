@@ -42,7 +42,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF protection
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/login", "/register").permitAll() // Allow unauthenticated access
-                .requestMatchers("/quizzes").authenticated() // Protect /quizzes
+                .requestMatchers("/quizzes/**").authenticated() // Protect /quizzes
                 .anyRequest().authenticated() // Secure all other routes
             )
             .sessionManagement(session -> session

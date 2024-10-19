@@ -29,8 +29,12 @@ public class Quiz {
     private String difficulty;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonManagedReference(value = "quiz-question")
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "quiz-score")
+    private List<Score> scores = new ArrayList<>();
 
     public Quiz() { }
 
@@ -65,6 +69,10 @@ public class Quiz {
         return questions;
     }
 
+    public List<Score> getScores() {
+        return scores;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -89,6 +97,10 @@ public class Quiz {
         this.questions = questions;
     }
 
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
     public void addQuestion(Question questionText) {
         questions.add(questionText);
         questionText.setQuiz(this);
@@ -97,5 +109,15 @@ public class Quiz {
     public void removeQuestion(Question question) {
         questions.remove(question);
         question.setQuiz(null);
+    }
+
+    public void addScore(Score score) {
+        scores.add(score);
+        score.setQuiz(this);
+    }
+
+    public void removeScore(Score score) {
+        scores.remove(score);
+        score.setQuiz(null);
     }
 }

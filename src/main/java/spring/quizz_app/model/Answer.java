@@ -21,7 +21,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false, foreignKey = @ForeignKey(name = "fk_question"))
-    @JsonBackReference
+    @JsonBackReference(value = "question-answer")
     private Question question;
 
     public Answer() { }

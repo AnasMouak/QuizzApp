@@ -1,5 +1,10 @@
 package spring.quizz_app.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -25,6 +30,10 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "user-score")
+    private List<Score> scores = new ArrayList<>();
 
     public User() { }
 
@@ -60,6 +69,10 @@ public class User {
         return email;
     }
 
+    public List<Score> getScores() {
+        return scores;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -82,5 +95,19 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
+    public void addScore(Score score) {
+        scores.add(score);
+        score.setUser(this);
+    }
+
+    public void removeScore(Score score) {
+        scores.remove(score);
+        score.setUser(null);
     }
 }

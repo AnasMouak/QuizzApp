@@ -22,12 +22,12 @@ public class Question {
     private String questionText;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonManagedReference(value = "question-answer")
     private List<Answer> answers = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false, foreignKey = @ForeignKey(name = "fk_quiz"))
-    @JsonBackReference
+    @JsonBackReference(value = "quiz-question")
     private Quiz quiz;
 
     public Question() { }
