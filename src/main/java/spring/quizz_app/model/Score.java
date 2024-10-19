@@ -65,4 +65,9 @@ public class Score {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
+
+    // Method to retrieve the quiz title
+    public String getQuizTitle() {
+        return quiz != null ? quiz.getTitle() : null;
+    }
 }

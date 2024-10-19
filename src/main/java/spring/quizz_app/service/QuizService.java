@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import spring.quizz_app.model.Quiz;
+import spring.quizz_app.model.Score;
+import spring.quizz_app.model.User;
 import spring.quizz_app.repository.QuizRepository;
+import spring.quizz_app.repository.ScoreRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +16,12 @@ import java.util.Optional;
 public class QuizService {
 
     private final QuizRepository quizRepository;
+    private final ScoreRepository scoreRepository;
 
     @Autowired
-    public QuizService(QuizRepository quizRepository) {
+    public QuizService(QuizRepository quizRepository, ScoreRepository scoreRepository) {
         this.quizRepository = quizRepository;
+        this.scoreRepository = scoreRepository;
     }
 
     public List<Quiz> getAllQuizzes() {
@@ -30,4 +35,10 @@ public class QuizService {
     public Optional<Quiz> findById(Long id) {
         return quizRepository.findById(id);
     }
+
+    public List<Score> getQuizzesTakenByUser(User user) {
+        return scoreRepository.findByUser(user);
+    }
+
+
 }

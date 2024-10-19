@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import spring.quizz_app.model.Question;
 import spring.quizz_app.model.Quiz;
+import spring.quizz_app.model.Score;
 import spring.quizz_app.model.User;
 import spring.quizz_app.repository.QuizRepository;
 import spring.quizz_app.repository.UserRepository;
@@ -99,5 +100,12 @@ public class QuizController {
         response.put("score", scoreValue);
     
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/quizzes/taken")
+    public List<Score> getQuizzesTakenByUser(Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username);
+        return quizService.getQuizzesTakenByUser(user);
     }
 }
